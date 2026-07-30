@@ -111,22 +111,18 @@ import {jwtDecode} from 'jwt-decode';
     // }
 
     export async function getAllCourses() {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/courses`;
+    try {
+        const res = await fetch(
+            "https://prj666-user-api.onrender.com/api/user/courses"
+        );
 
-    console.log("CALLING:", url);
+        const data = await res.json();
 
-    const res = await fetch(url);
-
-    console.log("STATUS:", res.status);
-    console.log("FINAL URL:", res.url);
-
-    const text = await res.text();
-
-    if (!res.ok) {
-        throw new Error(text);
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
-
-    return JSON.parse(text);
 }
 
     export async function getAllCoursesWithRatings() {

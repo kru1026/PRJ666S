@@ -184,7 +184,7 @@ export default function Home() {
             <div class="container-sm">
                 {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br />
 
-                {recommendationMessage ? (
+                {/* {recommendationMessage ? (
                     <h5>{recommendationMessage}</h5>
                 ) : (
                     <>
@@ -196,7 +196,7 @@ export default function Home() {
                 </span>
                  ))}
                 </>
-                )}
+                )} */}
 
                 {filteredCourses && (
                     <h5>Recommended for you</h5>

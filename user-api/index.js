@@ -590,20 +590,22 @@ const storage2 = multer.diskStorage({
 const upload2 = multer({ storage: storage2 });
 
 app.post('/api/user/upload/:id', setUserIdQueryParam, upload.single('file'), (req, res) => {
-    const originalFileName = req.file.originalname;
+    
     if (!req.file) {
         console.error("No file uploaded.");
         return res.status(400).json({ error: 'File not uploaded' });
     }
+    const originalFileName = req.file.originalname;
     res.json({ message: 'File uploaded successfully', fileName: req.file.filename });
 });
 
 app.post('/api/user/uploadImg/:id', setUserIdQueryParam, upload2.single('file'), (req, res) => {
-    const originalFileName = req.file.originalname;
+    
     if (!req.file) {
         console.error("No image uploaded.");
         return res.status(400).json({ error: 'Image not uploaded' });
     }
+    const originalFileName = req.file.originalname;
     res.json({ message: 'Image uploaded successfully', fileName: req.file.filename });
 });
 

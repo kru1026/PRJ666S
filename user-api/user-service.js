@@ -113,6 +113,10 @@ module.exports = {
 
 module.exports.connect = function () {
     return new Promise(function (resolve, reject) {
+
+        console.log("Mongo connection string exists:", !!mongoDBConnectionString);
+        console.log("Mongo host:", mongoDBConnectionString?.split("@")[1]);
+
         db = mongoose.createConnection(mongoDBConnectionString);
 
         db.on('error', err => {

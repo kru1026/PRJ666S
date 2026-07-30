@@ -26,9 +26,15 @@ export default function Home() {
     const [purchaseCount, setPurchasedCount] = useState([]);
 
     const [storedUser, setStoredUser] = useState(null);
+    const [token, setToken] = useState(null);
+    
 
     // const storedUser = JSON.parse(localStorage.getItem('user'));
-    const token = getToken();
+    // const token = getToken();
+
+    useEffect(() => {
+    setToken(getToken());
+}, []);
 
     useEffect(() => {
     const user = localStorage.getItem("user");
@@ -100,26 +106,54 @@ export default function Home() {
         fetchMostRatedCourses();
     }, []);
 
+    // useEffect(() => {
+    //     // Filter courses by institution
+    //     const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
+    
+    //     if (institutionCourses.length === 0) {
+    //       // No institution match, so display all courses (up to 5)
+    //       setFilteredCourses(courses.slice(0, 5));
+    //     } else {
+    //       // Filter by program within institution-matched courses
+    //       const matchingProgramCourses = institutionCourses.filter(course => course.program === storedUser.program);
+    
+    //       // Prioritize program matches, then fill with institution matches up to 5 courses
+    //       const selectedCourses = [
+    //         ...matchingProgramCourses,
+    //         ...institutionCourses.filter(course => !matchingProgramCourses.includes(course))
+    //       ].slice(0, 5);
+    
+    //       setFilteredCourses(selectedCourses);
+    //     }
+    //   }, [courses]);
+
     useEffect(() => {
-        // Filter courses by institution
-        const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
-    
-        if (institutionCourses.length === 0) {
-          // No institution match, so display all courses (up to 5)
-          setFilteredCourses(courses.slice(0, 5));
-        } else {
-          // Filter by program within institution-matched courses
-          const matchingProgramCourses = institutionCourses.filter(course => course.program === storedUser.program);
-    
-          // Prioritize program matches, then fill with institution matches up to 5 courses
-          const selectedCourses = [
+    if (!storedUser || courses.length === 0) {
+        return;
+    }
+
+    const institutionCourses = courses.filter(
+        course => course.institution === storedUser.institution
+    );
+
+    if (institutionCourses.length === 0) {
+        setFilteredCourses(courses.slice(0, 5));
+    } else {
+        const matchingProgramCourses = institutionCourses.filter(
+            course => course.program === storedUser.program
+        );
+
+        const selectedCourses = [
             ...matchingProgramCourses,
-            ...institutionCourses.filter(course => !matchingProgramCourses.includes(course))
-          ].slice(0, 5);
-    
-          setFilteredCourses(selectedCourses);
-        }
-      }, [courses]);
+            ...institutionCourses.filter(
+                course => !matchingProgramCourses.includes(course)
+            )
+        ].slice(0, 5);
+
+        setFilteredCourses(selectedCourses);
+    }
+
+}, [courses, storedUser]);
 
 
     if (error) {

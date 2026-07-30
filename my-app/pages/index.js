@@ -45,23 +45,27 @@ export default function Home() {
 }, []);
 
     useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const data = await getAllCourses();
-                setCourses(data);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
+    const fetchCourses = async () => {
+        try {
+            console.log("Fetching courses...");
+            const data = await getAllCourses();
+            console.log("Courses OK");
+            setCourses(data);
+        } catch (err) {
+            console.log("Courses FAILED:", err);
+            setError(err.message);
+        }
+    };
 
-        fetchCourses();
-    }, []);
+    fetchCourses();
+}, []);
 
     useEffect(() => {
         const fetchTutors = async () => {
           try {
+            console.log("Fetching tutors...");
             const data = await getAllTutors();
-    
+            console.log("tutors OK");
             // Calculate average ratings and sort tutors by rating in descending order
             const sortedTutors = data
               .map((tutor) => ({
@@ -73,6 +77,7 @@ export default function Home() {
     
             setTutors(sortedTutors);
           } catch (err) {
+            console.log("fetching tutors failed", err);
             setError(err.message);
           }
         };
@@ -83,9 +88,12 @@ export default function Home() {
       useEffect(() => {
         const fetchMostPurchasedCourses = async () => {
             try {
+                console.log("Fetching mostPurchased...");
                 const data = await getMostPurchasedCourses();
+                console.log("Fetching mostPurchased ok...");
                 setMostPurchasedCourses(data);
             } catch (err) {
+                console.log("Fetching mostPurchased failed");
                 setError(err.message);
             }
         };
@@ -96,9 +104,12 @@ export default function Home() {
     useEffect(() => {
         const fetchMostRatedCourses = async () => {
             try {
+                console.log("Fetching mostRated...");
                 const data = await getMostRatedCourses();
+                console.log("Fetching mostRated...ok ");
                 setMostRatedCourses(data);
             } catch (err) {
+                console.log("Fetching mostRated failed...", err);
                 setError(err.message);
             }
         };

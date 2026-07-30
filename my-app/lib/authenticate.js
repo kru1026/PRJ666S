@@ -113,16 +113,19 @@ import {jwtDecode} from 'jwt-decode';
     export async function getAllCourses() {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/courses`;
 
-    console.log("Requesting:", url);
+    console.log("FETCHING URL:", url);
 
     const res = await fetch(url);
+    const text = await res.text();
 
-    console.log("Status:", res.status);
+    console.log("STATUS:", res.status);
+    console.log("RESPONSE:", text.substring(0, 100));
 
-    const data = await res.text();
-    console.log(data.substring(0, 100));
+    if (!res.ok) {
+        throw new Error(text);
+    }
 
-    return JSON.parse(data);
+    return JSON.parse(text);
 }
 
     export async function getAllCoursesWithRatings() {

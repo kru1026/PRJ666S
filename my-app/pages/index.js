@@ -27,7 +27,8 @@ export default function Home() {
 
     const [storedUser, setStoredUser] = useState(null);
     const [token, setToken] = useState(null);
-    
+
+    const [recommendationMessage, setRecommendationMessage] = useState("");
 
     // const storedUser = JSON.parse(localStorage.getItem('user'));
     // const token = getToken();
@@ -117,59 +118,60 @@ export default function Home() {
         fetchMostRatedCourses();
     }, []);
 
-    // useEffect(() => {
-    //     // Filter courses by institution
-    //     const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
-    
-    //     if (institutionCourses.length === 0) {
-    //       // No institution match, so display all courses (up to 5)
-    //       setFilteredCourses(courses.slice(0, 5));
-    //     } else {
-    //       // Filter by program within institution-matched courses
-    //       const matchingProgramCourses = institutionCourses.filter(course => course.program === storedUser.program);
-    
-    //       // Prioritize program matches, then fill with institution matches up to 5 courses
-    //       const selectedCourses = [
-    //         ...matchingProgramCourses,
-    //         ...institutionCourses.filter(course => !matchingProgramCourses.includes(course))
-    //       ].slice(0, 5);
-    
-    //       setFilteredCourses(selectedCourses);
-    //     }
-    //   }, [courses]);
-
     useEffect(() => {
-    if (!storedUser || courses.length === 0) {
-        return;
-    }
-
-    const institutionCourses = courses.filter(
-        course => course.institution === storedUser.institution
-    );
-
-    if (institutionCourses.length === 0) {
-        setFilteredCourses(courses.slice(0, 5));
-    } else {
-        const matchingProgramCourses = institutionCourses.filter(
-            course => course.program === storedUser.program
-        );
-
-        const selectedCourses = [
+        // Filter courses by institution
+        const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
+    
+        if (institutionCourses.length === 0) {
+          // No institution match, so display all courses (up to 5)
+          setFilteredCourses(courses.slice(0, 5));
+        } else {
+          // Filter by program within institution-matched courses
+          const matchingProgramCourses = institutionCourses.filter(course => course.program === storedUser.program);
+    
+          // Prioritize program matches, then fill with institution matches up to 5 courses
+          const selectedCourses = [
             ...matchingProgramCourses,
-            ...institutionCourses.filter(
-                course => !matchingProgramCourses.includes(course)
-            )
-        ].slice(0, 5);
+            ...institutionCourses.filter(course => !matchingProgramCourses.includes(course))
+          ].slice(0, 5);
+    
+          setFilteredCourses(selectedCourses);
+        }
+      }, [courses]);
 
-        setFilteredCourses(selectedCourses);
-    }
+//     useEffect(() => {
+//     if (!storedUser) {
+//         setRecommendationMessage("Please log in to see course recommendations.");
+//         return;
+//     }
 
-}, [courses, storedUser]);
+//     const institutionCourses = courses.filter(
+//         course => course.institution === storedUser.institution
+//     );
+
+//     if (institutionCourses.length === 0) {
+//         setFilteredCourses(courses.slice(0, 5));
+//     } else {
+//         const matchingProgramCourses = institutionCourses.filter(
+//             course => course.program === storedUser.program
+//         );
+
+//         const selectedCourses = [
+//             ...matchingProgramCourses,
+//             ...institutionCourses.filter(
+//                 course => !matchingProgramCourses.includes(course)
+//             )
+//         ].slice(0, 5);
+
+//         setFilteredCourses(selectedCourses);
+//     }
+
+// }, [courses, storedUser]);
 
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+//     if (error) {
+//         return <div>Error: {error}</div>;
+//     }
 
     const calculateAverageRating = (feedback) => {
         if (!feedback || feedback.length === 0) return 0;
@@ -180,7 +182,21 @@ export default function Home() {
     return (
         <>
             <div class="container-sm">
-                {/* {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br /> */}
+                {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br />
+
+                {recommendationMessage ? (
+                    <h5>{recommendationMessage}</h5>
+                ) : (
+                    <>
+                    <h5>Recommended for you</h5>
+
+                    {filteredCourses.slice(0, 5).map((course) => (
+                <span className="mx-2" key={course._id}>
+                    <CourseCard2 course={course} />
+                </span>
+                 ))}
+                </>
+                )}
 
                 {filteredCourses && (
                     <h5>Recommended for you</h5>

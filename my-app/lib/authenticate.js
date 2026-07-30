@@ -89,26 +89,47 @@ import {jwtDecode} from 'jwt-decode';
         }
       }
 
-      export async function getAllCourses() {
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
-                method: 'GET',
-            });
+    //   export async function getAllCourses() {
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
+    //             method: 'GET',
+    //         });
     
-            // Check if the response is not OK
-            if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.message || "Failed to fetch courses");
-            }
+    //         // Check if the response is not OK
+    //         if (!res.ok) {
+    //             const errorData = await res.json();
+    //             throw new Error(errorData.message || "Failed to fetch courses");
+    //         }
     
-            const data = await res.json();
+    //         const data = await res.json();
     
-            return data;
-        } catch (error) {
-            console.error("Error fetching courses:", error);
-            throw error;  // Rethrow the error to handle it in the calling function
-        }
+    //         return data;
+    //     } catch (error) {
+    //         console.error("Error fetching courses:", error);
+    //         throw error;  // Rethrow the error to handle it in the calling function
+    //     }
+    // }
+
+    export async function getAllCourses() {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/courses`;
+
+    console.log("Courses URL:", url);
+
+    const res = await fetch(url);
+
+    console.log("Status:", res.status);
+    console.log("Content-Type:", res.headers.get("content-type"));
+
+    const text = await res.text();
+
+    console.log("Response:", text.substring(0, 200));
+
+    if (!res.ok) {
+        throw new Error(text);
     }
+
+    return JSON.parse(text);
+}
 
     export async function getAllCoursesWithRatings() {
       try {

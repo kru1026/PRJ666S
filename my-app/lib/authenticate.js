@@ -113,13 +113,14 @@ import {jwtDecode} from 'jwt-decode';
     export async function getAllCourses() {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/courses`;
 
-    console.log("FETCHING URL:", url);
+    console.log("CALLING:", url);
 
     const res = await fetch(url);
-    const text = await res.text();
 
     console.log("STATUS:", res.status);
-    console.log("RESPONSE:", text.substring(0, 100));
+    console.log("FINAL URL:", res.url);
+
+    const text = await res.text();
 
     if (!res.ok) {
         throw new Error(text);

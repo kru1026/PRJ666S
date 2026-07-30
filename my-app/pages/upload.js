@@ -25,7 +25,7 @@ const FileUpload = () => {
         // Create FormData object to send the file as multipart/form-data
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("fileName", file.originalname);
+        formData.append("fileName", file.name);
         formData.append("userId", storedUser._id);
 
         try {

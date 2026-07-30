@@ -25,8 +25,18 @@ export default function Home() {
     const [mostRatedCourses, setMostRatedCourses] = useState([]);
     const [purchaseCount, setPurchasedCount] = useState([]);
 
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const [storedUser, setStoredUser] = useState(null);
+
+    // const storedUser = JSON.parse(localStorage.getItem('user'));
     const token = getToken();
+
+    useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (user) {
+        setStoredUser(JSON.parse(user));
+    }
+}, []);
 
     useEffect(() => {
         const fetchCourses = async () => {

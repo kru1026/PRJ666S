@@ -145,6 +145,8 @@ export default function Home() {
         return;
     }
 
+    setRecommendationMessage("");
+
     const institutionCourses = courses.filter(
         course => course.institution === storedUser.institution
     );

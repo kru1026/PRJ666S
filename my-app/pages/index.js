@@ -188,17 +188,19 @@ export default function Home() {
 
                 {recommendationMessage ? (
                     <h5>{recommendationMessage}</h5>
-                ) : (
+                    ) : storedUser?.userType === "tutor" ? (
+                    <h5>Please log in to see course recommendations. (for students)</h5>
+                    ) : (
                     <>
-                    <h5>Recommended for you</h5>
+                <h5>Recommended for you</h5>
 
-                    {filteredCourses.slice(0, 5).map((course) => (
-                <span className="mx-2" key={course._id}>
-                    <CourseCard2 course={course} />
-                </span>
-                 ))}
-                </>
-                )}
+            {filteredCourses.slice(0, 5).map((course) => (
+            <span className="mx-2" key={course._id}>
+                <CourseCard2 course={course} />
+            </span>
+        ))}
+    </>
+)}
 
                 {/* {filteredCourses && (
                     <h5>Recommended for you</h5>

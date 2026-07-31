@@ -28,6 +28,7 @@ function MainNav() {
   function logout() {
     closeExpanded();
     removeToken();
+    localStorage.removeItem("user")
     router.push('/login');
   }
 

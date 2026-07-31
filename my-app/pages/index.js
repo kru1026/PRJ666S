@@ -141,7 +141,7 @@ export default function Home() {
 
     useEffect(() => {
     if (!storedUser) {
-        setRecommendationMessage("Please log in to see course recommendations.");
+        setRecommendationMessage("Please log in to see course recommendations. (for students)");
         return;
     }
 

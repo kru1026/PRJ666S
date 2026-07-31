@@ -118,64 +118,60 @@ export default function Home() {
         fetchMostRatedCourses();
     }, []);
 
+    // useEffect(() => {
+    //     // Filter courses by institution
+    //     const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
+    
+    //     if (institutionCourses.length === 0) {
+    //       // No institution match, so display all courses (up to 5)
+    //       setFilteredCourses(courses.slice(0, 5));
+    //     } else {
+    //       // Filter by program within institution-matched courses
+    //       const matchingProgramCourses = institutionCourses.filter(course => course.program === storedUser.program);
+    
+    //       // Prioritize program matches, then fill with institution matches up to 5 courses
+    //       const selectedCourses = [
+    //         ...matchingProgramCourses,
+    //         ...institutionCourses.filter(course => !matchingProgramCourses.includes(course))
+    //       ].slice(0, 5);
+    
+    //       setFilteredCourses(selectedCourses);
+    //     }
+    //   }, [courses]);
+
     useEffect(() => {
+    if (!storedUser) {
+        setRecommendationMessage("Please log in to see course recommendations.");
+        return;
+    }
 
-        if (!storedUser){
-          setFilteredCourses(courses.slice(0, 5));
-        }
-        // Filter courses by institution
-        const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
-    
-        if (institutionCourses.length === 0) {
-          // No institution match, so display all courses (up to 5)
-          setFilteredCourses(courses.slice(0, 5));
-        } else {
-          // Filter by program within institution-matched courses
-          const matchingProgramCourses = institutionCourses.filter(course => course.program === storedUser.program);
-    
-          // Prioritize program matches, then fill with institution matches up to 5 courses
-          const selectedCourses = [
+    const institutionCourses = courses.filter(
+        course => course.institution === storedUser.institution
+    );
+
+    if (institutionCourses.length === 0) {
+        setFilteredCourses(courses.slice(0, 5));
+    } else {
+        const matchingProgramCourses = institutionCourses.filter(
+            course => course.program === storedUser.program
+        );
+
+        const selectedCourses = [
             ...matchingProgramCourses,
-            ...institutionCourses.filter(course => !matchingProgramCourses.includes(course))
-          ].slice(0, 5);
-    
-          setFilteredCourses(selectedCourses);
-        }
-      }, [courses]);
+            ...institutionCourses.filter(
+                course => !matchingProgramCourses.includes(course)
+            )
+        ].slice(0, 5);
 
-//     useEffect(() => {
-//     if (!storedUser) {
-//         setRecommendationMessage("Please log in to see course recommendations.");
-//         return;
-//     }
+        setFilteredCourses(selectedCourses);
+    }
 
-//     const institutionCourses = courses.filter(
-//         course => course.institution === storedUser.institution
-//     );
-
-//     if (institutionCourses.length === 0) {
-//         setFilteredCourses(courses.slice(0, 5));
-//     } else {
-//         const matchingProgramCourses = institutionCourses.filter(
-//             course => course.program === storedUser.program
-//         );
-
-//         const selectedCourses = [
-//             ...matchingProgramCourses,
-//             ...institutionCourses.filter(
-//                 course => !matchingProgramCourses.includes(course)
-//             )
-//         ].slice(0, 5);
-
-//         setFilteredCourses(selectedCourses);
-//     }
-
-// }, [courses, storedUser]);
+}, [courses, storedUser]);
 
 
-//     if (error) {
-//         return <div>Error: {error}</div>;
-//     }
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     const calculateAverageRating = (feedback) => {
         if (!feedback || feedback.length === 0) return 0;
@@ -188,7 +184,7 @@ export default function Home() {
             <div class="container-sm">
                 {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br />
 
-                {/* {recommendationMessage ? (
+                {recommendationMessage ? (
                     <h5>{recommendationMessage}</h5>
                 ) : (
                     <>
@@ -200,9 +196,9 @@ export default function Home() {
                 </span>
                  ))}
                 </>
-                )} */}
+                )}
 
-                {filteredCourses && (
+                {/* {filteredCourses && (
                     <h5>Recommended for you</h5>
                 )}
 
@@ -212,7 +208,7 @@ export default function Home() {
                             <CourseCard2 key={course._id} course={course}></CourseCard2>
                         </span>
                     </>
-                )}
+                )} */}
             </div><br />
 
             <div class="container-sm">

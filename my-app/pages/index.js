@@ -188,7 +188,7 @@ export default function Home() {
 
                 {recommendationMessage ? (
                     <h5>{recommendationMessage}</h5>
-                    ) : storedUser?.userType === "tutor" ? (
+                    ) : ["tutor", "admin"].includes(storedUser?.userType) ? (
                     <h5>Please log in to see course recommendations. (for students)</h5>
                     ) : (
                     <>

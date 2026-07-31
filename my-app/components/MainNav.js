@@ -73,7 +73,7 @@ function MainNav() {
               {token && storedUser?.userType === "admin" && (
                 <Link href="/admin#user" passHref legacyBehavior>
                   <Nav.Link active={router.pathname.includes("/admin")} onClick={closeExpanded} className="ms-3">
-                    <FaUser /> Dashboard
+                    <FaUser /> Admin's Portal
                   </Nav.Link>
                 </Link>
               )}

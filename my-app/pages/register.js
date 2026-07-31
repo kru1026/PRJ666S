@@ -52,6 +52,13 @@ export default function Register(props){
     }
   }, [userType]);
 
+  useEffect(() => {
+    // Reset selected institution when userType is "admin"
+    if (userType === 'admin') {
+      setSelectedInstitution('');
+    }
+  }, [userType]);
+
   return (
     <>
       <Card bg="light">
@@ -102,12 +109,21 @@ export default function Register(props){
            checked={userType === 'tutor'}
            onChange={e => setUserType(e.target.value)}
         />
+        <Form.Check
+           type="radio"
+           label="Admin"
+           id="admin"
+           name="userType"
+           value="admin"
+           checked={userType === 'admin'}
+           onChange={e => setUserType(e.target.value)}
+        />
         </Form.Group><br />
 
         <div>
       {/* Category Dropdown */}
       <label>Institution:</label>
-      <select onChange={handleInstitutionChanges} value={selectedInstitution} disabled={userType=="tutor"}>
+      <select onChange={handleInstitutionChanges} value={selectedInstitution} disabled={userType === "tutor" || userType === "admin"}>
         <option value="">Select Institution</option>
         {Object.keys(institutions).map((institution) => (
           <option key={institution} value={institution}>

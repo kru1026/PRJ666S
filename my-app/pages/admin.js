@@ -516,11 +516,11 @@ export default function Admin() {
       {/* <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> */}
       {/* <div class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: showAssignedModel ? 'contents' : 'none', zIndex: 5 }}> */}
         <div
-  className={`modal fade ${showAssignedModel ? "show" : ""}`}
-  style={{ display: showAssignedModel ? "block" : "none" }}
-  tabIndex="-1"
->
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable shadow-lg rounded" style={{ zIndex: 5 }}>
+          className={`modal fade ${showAssignedModel ? "show" : ""}`} 
+          style={{ display: showAssignedModel ? "block" : "none" }}
+          tabIndex="-1"
+        >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style={{ zIndex: 5 }}>
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">

@@ -119,6 +119,10 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
+
+        if (!storedUser){
+          setFilteredCourses(courses.slice(0, 5));
+        }
         // Filter courses by institution
         const institutionCourses = courses.filter(course => course.institution === storedUser.institution);
     

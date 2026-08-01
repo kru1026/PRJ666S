@@ -187,7 +187,7 @@ export default function Admin() {
       addCourseToUserTeachingCourse(tutor._id, assignedCourse._id)
 
       setAssignedCourse(updatedCourse);
-
+      
       console.log('Tutor added successfully:', updatedCourse);
     } catch (error) {
       console.error('Error adding tutor:', error);
@@ -272,6 +272,7 @@ export default function Admin() {
 
       setTempTutor(tempUser);
       setUsers(users.map((user) => (user._id === tempUser._id ? tempUser : user)));
+      window.location.reload();
     } catch (error) {
       console.error("Error updating course:", error);
     }
@@ -336,7 +337,7 @@ export default function Admin() {
           <div className="col-11">
             <div className="tab-content" id="nav-tabContent">
               <div className={`tab-pane fade  
- ${activeTab === 'user' ? 'show active' : ''}`} id="user" role="tabpanel" aria-labelledby="user-list">
+                ${activeTab === 'user' ? 'show active' : ''}`} id="user" role="tabpanel" aria-labelledby="user-list">
 
                 <table className="table">
                   <thead className="thead-light">
@@ -520,7 +521,7 @@ export default function Admin() {
           style={{ display: showAssignedModel ? "block" : "none" }}
           tabIndex="-1"
         >
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style={{ zIndex: 5 }}>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" rounded style={{ zIndex: 5 }}>
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -542,6 +543,7 @@ export default function Admin() {
                           <button onClick={() => handleRemoveAssignedTutor(tutor)} type="button" class="btn btn-danger btn-sm align-middle">Remove</button>
                         ) : (
                           <button onClick={() => handleAddAssignedTutor(tutor)} type="button" class="btn btn-primary btn-sm align-middle">Assign</button>
+                        
                         )}
                       </li>
                     ))
@@ -558,8 +560,17 @@ export default function Admin() {
         </div>
       </div>
       {/* <!-- Modal --> showPending */}
-      <div class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: showPendingModel ? 'contents' : 'none', zIndex: 5 }}>
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable shadow-lg rounded" style={{ zIndex: 5 }}>
+      {/* <div class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: showPendingModel ? 'contents' : 'none', zIndex: 5 }}> */}
+      <div
+          className={`modal fade ${showPendingModel ? 'show' : ''}`}
+          aria-labelledby="exampleModalLabel"
+          aria-hidden={!showPendingModel}
+          style={{
+            display: showPendingModel ? 'block' : 'none',
+            zIndex: 1050
+          }}
+        >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded" style={{ zIndex: 5 }}>
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">

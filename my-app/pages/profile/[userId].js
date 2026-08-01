@@ -462,8 +462,17 @@ const [height, setHeight] = useState(200);
 
       {user && (user._id != currentUser._id || user.userType != "student") ?
         <>
-          <div className="modal fade position-absolute top-50 start-50" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: isEditCourse ? 'contents' : 'none', zIndex: 5 }}>
-            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable shadow-lg rounded" style={{ zIndex: 5 }}>
+          {/* <div className="modal fade position-absolute top-50 start-50" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: isEditCourse ? 'contents' : 'none', zIndex: 5 }}> */}
+          <div
+            className={`modal fade ${isEditCourse ? 'show' : ''}`}
+            aria-labelledby="exampleModalLabel"
+            aria-hidden={!isEditCourse}
+            style={{
+              display: isEditCourse ? 'block' : 'none',
+              zIndex: 1050
+            }}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable rounded" style={{ zIndex: 5 }}>
               <div className="modal-content">
                 <div className="modal-header">
                   <h1 className="modal-title fs-5" id="exampleModalLabel">

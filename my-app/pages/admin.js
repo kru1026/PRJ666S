@@ -184,11 +184,14 @@ export default function Admin() {
   const handleAddAssignedTutor = async (tutor) => {
     try {
       const updatedCourse = await addTutorToCourse(assignedCourse._id, tutor._id);
-      addCourseToUserTeachingCourse(tutor._id, assignedCourse._id)
+      //addCourseToUserTeachingCourse(tutor._id, assignedCourse._id)
+
+      await updatePendingCourse(tutor._id, assignedCourse._id);
 
       setAssignedCourse(updatedCourse);
-      
       console.log('Tutor added successfully:', updatedCourse);
+      window.location.reload();
+      
     } catch (error) {
       console.error('Error adding tutor:', error);
     }

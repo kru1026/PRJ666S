@@ -356,28 +356,51 @@ module.exports.updateUser = function (userId, updatedData) {
     });
   };
 
-  module.exports.approvedPendingCourse = function (userId, courseId) {
+//   module.exports.approvedPendingCourse = function (userId, courseId) {
+//     return new Promise((resolve, reject) => {
+//       User.findByIdAndUpdate(
+//         userId,
+//         {
+//           $pull: { pendingCourse: courseId },
+//           $push: { teachingCourse: courseId }
+//         },
+//         { new: true }
+//       )
+//         .then((updatedUser) => {
+//           if (!updatedUser) {
+//             reject("User not found.");
+//           } else {
+//             resolve(updatedUser);
+//           }
+//         })
+//         .catch((err) => {
+//           reject(`Error while approving pending course: ${err.message}`);
+//         });
+//     });
+//   };
+
+    module.exports.approvedPendingCourse = function (userId, courseId) {
     return new Promise((resolve, reject) => {
-      User.findByIdAndUpdate(
+        User.findByIdAndUpdate(
         userId,
         {
-          $pull: { pendingCourse: courseId },
-          $push: { teachingCourse: courseId }
+            $pull: { pendingCourse: courseId },
+            $addToSet: { teachingCourse: courseId }
         },
         { new: true }
-      )
+        )
         .then((updatedUser) => {
-          if (!updatedUser) {
+            if (!updatedUser) {
             reject("User not found.");
-          } else {
+            } else {
             resolve(updatedUser);
-          }
+            }
         })
         .catch((err) => {
-          reject(`Error while approving pending course: ${err.message}`);
+            reject(`Error while approving pending course: ${err.message}`);
         });
     });
-  };
+    };
 
   module.exports.getAllTutors = function () {
     return new Promise((resolve, reject) => {
@@ -397,36 +420,56 @@ module.exports.updateUser = function (userId, updatedData) {
   };
   
 
+// module.exports.addCourseToUserTeachingCourse = function (courseId, tutorId) {
+//     return new Promise((resolve, reject) => {
+//       User.findOne({ _id: tutorId, teachingCourse: courseId }) // Check if courseId already exists in teachingCourse
+//         .then((existingTutor) => {
+//           if (existingTutor) {
+//             reject("Course already assigned to this tutor.");
+//           } else {
+//             // If courseId is not found, add it
+//             User.findByIdAndUpdate(
+//               tutorId,
+//               { $push: { teachingCourse: courseId } },
+//               { new: true }
+//             )
+//               .then((updatedTutor) => {
+//                 if (!updatedTutor) {
+//                   reject("Tutor not found.");
+//                 } else {
+//                   resolve(updatedTutor);
+//                 }
+//               })
+//               .catch((err) => {
+//                 reject(`Error while adding course to tutor: ${err.message}`);
+//               });
+//           }
+//         })
+//         .catch((err) => {
+//           reject(`Error checking if course is already assigned: ${err.message}`);
+//         });
+//     });
+//   };
+
 module.exports.addCourseToUserTeachingCourse = function (courseId, tutorId) {
-    return new Promise((resolve, reject) => {
-      User.findOne({ _id: tutorId, teachingCourse: courseId }) // Check if courseId already exists in teachingCourse
-        .then((existingTutor) => {
-          if (existingTutor) {
-            reject("Course already assigned to this tutor.");
-          } else {
-            // If courseId is not found, add it
-            User.findByIdAndUpdate(
-              tutorId,
-              { $push: { teachingCourse: courseId } },
-              { new: true }
-            )
-              .then((updatedTutor) => {
-                if (!updatedTutor) {
-                  reject("Tutor not found.");
-                } else {
-                  resolve(updatedTutor);
-                }
-              })
-              .catch((err) => {
-                reject(`Error while adding course to tutor: ${err.message}`);
-              });
-          }
-        })
-        .catch((err) => {
-          reject(`Error checking if course is already assigned: ${err.message}`);
-        });
-    });
-  };
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(
+      tutorId,
+      { $addToSet: { teachingCourse: courseId } },
+      { new: true }
+    )
+      .then((updatedTutor) => {
+        if (!updatedTutor) {
+          reject("Tutor not found.");
+        } else {
+          resolve(updatedTutor);
+        }
+      })
+      .catch((err) => {
+        reject(`Error while adding course to tutor: ${err.message}`);
+      });
+  });
+};
 
   module.exports.addCourseToUserPendingCourse = function (userId, courseId) {
     return new Promise((resolve, reject) => {

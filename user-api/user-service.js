@@ -906,6 +906,22 @@ module.exports.deleteOneAppointment = async function (appointmentId) {
     });
 };
 
+module.exports.getAllAppointments = function () {
+    return new Promise((resolve, reject) => {
+        Appointment.find({}).exec()
+            .then(appointments => {
+                if (appointments.length === 0) {
+                    reject("No appointments found.");
+                } else {
+                    resolve(appointments);
+                }
+            })
+            .catch(err => {
+                reject(`Error while fetching appointments: ${err.message}`);
+            });
+    });
+};
+
 module.exports.getAppointmentsForUser = function (userName) {
     return new Promise((resolve, reject) => {
         Appointment.find({ userName: userName }).exec() 

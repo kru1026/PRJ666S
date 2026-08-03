@@ -5,8 +5,9 @@ import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { createAppointment } from './api/createAppointment';
 import { useRouter } from 'next/router';
 import DatePicker from 'react-datepicker';
-import { getAllTutors } from './api/user';
+//import { getAllTutors } from './api/user';
 import { getAppointmentsForUser } from './api/getAppointments';
+import { getAllAppointments } from './api/getAllAppointments';
 import { getAllCoursesFromOneUser } from './api/getAllCoursesFromOneUser';
 import { getTutorsByCourseCode } from './api/getTutorsByCourseCode';
 import { getRemainingHoursForOneCourse } from './api/getRemainingHoursForOneCourse';
@@ -23,12 +24,17 @@ export default function Appointment() {
     const [error, setError] = useState(null);
     const [tutors, setTutors] = useState([]);
     const [selectedTutor, setSelectedTutor] = useState("");
-    const predefinedDurations = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+    //const predefinedDurations = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
     const [appointments, setAppointments] = useState([]);
+    const [allAppointments, setAllAppointments] = useState([]);
     const [allCoursesForStudent, setAllCoursesForStudent] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState("");
     const [remainingHours, setRemainingHours] = useState(0);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    //const [allStarting, setAllStarting] = useState("");
+    //const [allEnding, setAllEnding] = useState("");
+    const [userAppointments, setUserAppointments] = useState([]);
+    const [tutorAppointments, setTutorAppointments] = useState([]);
 
     const router = useRouter();
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -96,16 +102,64 @@ export default function Appointment() {
         fetchAppointmentsForUser();
     }, []);
 
-    const checkAvailability = () => {
-        for (const appointment of appointments) {
-            const appointmentStart = new Date(appointment.startTime);
-            const appointmentEnd = new Date(appointment.endTime);
-            if (startingDateTime < appointmentEnd && endingDateTime > appointmentStart) {
-                return false;
+    useEffect(() => {
+    const fetchAllAppointments = async () => {
+        try {
+            const data = await getAllAppointments(storedUser.userName, selectedTutor);
+            setAllAppointments(data);
+        } catch (err) {
+            if (appointments.length > 0) {
+                setError(err.message);
             }
         }
-        return true;
     };
+
+    fetchAllAppointments();
+}, []);
+
+useEffect(() => {
+    const userAppts = allAppointments.filter(
+        appointment => appointment.userName === storedUser.userName
+    );
+
+    const tutorAppts = allAppointments.filter(
+        appointment => appointment.selectedTutor === selectedTutor
+    );
+
+    setUserAppointments(userAppts);
+    setTutorAppointments(tutorAppts);
+
+}, [allAppointments, storedUser.userName, selectedTutor]);
+
+const checkAvailability = () => {
+    const appointmentsToCheck = [
+        ...userAppointments,
+        ...tutorAppointments
+    ];
+
+    for (const appointment of appointmentsToCheck) {
+        const appointmentStart = new Date(appointment.startTime);
+        const appointmentEnd = new Date(appointment.endTime);
+
+        if (startingDateTime < appointmentEnd && endingDateTime > appointmentStart) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+    // const checkAvailability = () => {
+    //     for (const appointment of allAppointments) {
+
+    //         const appointmentStart = new Date(appointment.startTime);
+    //         const appointmentEnd = new Date(appointment.endTime);
+    //         if (startingDateTime < appointmentEnd && endingDateTime > appointmentStart) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();

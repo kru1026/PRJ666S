@@ -374,6 +374,15 @@ app.delete("/api/user/deleteOneAppointment/:id", (req, res) => {
         });
 });
 
+app.get("/api/user/getAllAppointments", (req, res) => {
+    userService.getAllAppointments()
+    .then(appointments => {
+        res.json(appointments);
+    })
+    .catch(err => {
+        res.status(422).json({ "message": err });
+    });
+});
 
 app.get("/api/user/getAppointmentsForUser", (req, res) => {
     const userName = req.query.userName;

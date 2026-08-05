@@ -1711,8 +1711,30 @@ module.exports.deleteOneAvailability = function (data) {
           }
       };
       
-        
-        
+    module.exports.removeTutorFromCourses = async function (userName) {
+        const user = await User.findOne({ userName });
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        await Course.updateMany(
+            {
+                _id: { $in: user.teachingCourse }
+            },
+            {
+                $pull: {
+                    assignedTutors: user._id
+                }
+            }
+        );
+
+        return {
+            message: "Tutor removed from assigned courses",
+            userId: user._id,
+            coursesUpdated: user.teachingCourses
+        };
+    };
         
         
         

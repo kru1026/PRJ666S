@@ -86,16 +86,35 @@ app.post("/api/user/reset-password", (req, res) => {
         });
 });
 
-app.post("/api/user/delete", (req, res) => {
+// app.post("/api/user/delete", (req, res) => {
+//     const { userName, password } = req.body;
+
+//     userService.deleteUser({ userName, password })
+//     removeTutorFromCourses(userName)
+//         .then((message) => {
+//             res.json({ message });
+//         })
+//         .catch((err) => {
+//             res.status(401).json({ message: err });
+//         });
+// });
+
+app.post("/api/user/delete", async (req, res) => {
+  try {
     const { userName, password } = req.body;
 
-    userService.deleteUser({ userName, password })
-        .then((message) => {
-            res.json({ message });
-        })
-        .catch((err) => {
-            res.status(401).json({ message: err });
-        });
+    await userService.removeTutorFromCourses(userName);
+
+    const message = await userService.deleteUser({
+      userName,
+      password
+    });
+
+    res.json({ message });
+
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
 });
 
 app.get("/api/user/courses", (req, res) => {

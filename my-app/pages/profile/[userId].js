@@ -9,7 +9,6 @@ import CourseCardList from '@/components/CourseCardList';
 import { Button, Col, Row } from "react-bootstrap";
 import { Card } from 'react-bootstrap';
 
-
 export default function Profile() {
   const router = useRouter();
   const token = getToken();
@@ -32,6 +31,15 @@ export default function Profile() {
   const [courseName, setCourseName] = useState("");
   const [selectedSort, setSelectedSort] = useState('default');
   const [files, setFiles] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (storedUser) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   const fetchOneUser = async () => {
     try {
@@ -491,7 +499,14 @@ const [height, setHeight] = useState(200);
           </div >
         </div >
       }
-
+      {!loggedIn ? (
+        <div className="card w-100 mt-4" style={{ border: 'none' }}>
+          <h3 className="card-body">
+            Please log in to view courses taught by this tutor.
+          </h3>
+        </div>
+      ) : (
+      <>
       {user && currentUser && (user._id != currentUser._id || user.userType != "student") ?
         <>
           {/* <div className="modal fade position-absolute top-50 start-50" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: isEditCourse ? 'contents' : 'none', zIndex: 5 }}> */}
@@ -516,7 +531,7 @@ const [height, setHeight] = useState(200);
                   <input type="text" className="form-control" placeholder="Course Code" value={courseName} onChange={(e) => setCourseName(e.target.value)}></input>
                   <ul className="list-group my-2" style={{ maxHeight: "250px", overflowY: 'scroll' }}>
                     {/* courses */}
-                    {courseList && courseList.filter((course) => course.courseCode.toLowerCase().includes(courseName.toLowerCase())).length > 0 ? (
+                     {courseList && courseList.filter((course) => course.courseCode.toLowerCase().includes(courseName.toLowerCase())).length > 0 ? (
                       courseList
                         .filter((course) => course.courseCode.toLowerCase().includes(courseName.toLowerCase()))
                         .map((course) => (
@@ -622,7 +637,7 @@ const [height, setHeight] = useState(200);
         </>
         :
         <></>
-      }
-    </>
+      }</>
+      )}</>
   );
 };

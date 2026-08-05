@@ -220,13 +220,26 @@ const [height, setHeight] = useState(200);
         <Button href={`../download`} style={{ width: '170px', height: '40px' }}>Tutor Certificates</Button>
       </div>)}{user.userType === "tutor" &&  <br />}
 
-      {user.userType === "tutor" && user._id == currentUser._id && (<div style={{ textAlign: 'right' }}>
+      {user && currentUser && user.userType === "tutor" && user._id == currentUser._id && (<div style={{ textAlign: 'right' }}>
         <Button href={`../upload`} style={{ width: '170px', height: '40px' }}>Upload Certificates</Button>
-      </div>)}{user.userType === "tutor" && user._id == currentUser._id &&  <br />}
+      </div>)}{user&& currentUser&& user.userType === "tutor" && user._id == currentUser._id &&  <br />}
 
-      {user._id == currentUser._id && files.length == 0 && (<div style={{ textAlign: 'right' }}>
+      {/* {user._id == currentUser._id && files.length == 0 && (<div style={{ textAlign: 'right' }}>
         <Button href={`../uploadImg`} style={{ width: '170px', height: '40px' }}>Upload a Photo</Button>
-      </div>)}{user._id == currentUser._id && files.length == 0 && <br />}
+      </div>)}{user._id == currentUser._id && files.length == 0 && <br />} */}
+
+      {user._id === currentUser?._id && files.length === 0 && (
+          <div style={{ textAlign: 'right' }}>
+            <Button
+              href="../uploadImg"
+              style={{ width: '170px', height: '40px' }}
+            >
+              Upload a Photo
+            </Button>
+          </div>
+        )}
+
+      {user._id === currentUser?._id && files.length === 0 && <br />}
 
       {files && files.length > 0 && user._id === currentUser._id && (
         <div style={{ textAlign: 'right' }}>
@@ -239,11 +252,30 @@ const [height, setHeight] = useState(200);
         </div>
         )}{files && files.length > 0 && user._id === currentUser._id && <br />}
 
-      {user._id == currentUser._id && user.userType == "student" && (<div style={{ textAlign: 'right' }}>
+      {/* {user._id == currentUser._id && user.userType == "student" && (<div style={{ textAlign: 'right' }}>
         <Button href={`../historyOrder`} style={{ width: '170px', height: '40px' }}>List of Courses</Button>
-      </div>)}{user._id == currentUser._id && user.userType == "student" && <br />}
+      </div>)}{user._id == currentUser._id && user.userType == "student" && <br />} */}
 
-      {user && user._id == currentUser._id && user.userType == "student" ?
+     {currentUser &&
+        user._id === currentUser._id &&
+        user.userType === "student" && (
+          <>
+            <div style={{ textAlign: "right" }}>
+              <Button
+                href="../historyOrder"
+                style={{ width: "170px", height: "40px" }}
+              >
+                List of Courses
+              </Button>
+            </div>
+            <br />
+          </>
+      )}
+     
+     {user._id == currentUser._id && user.userType == "student" && <br />}
+
+      {/* {user && user._id == currentUser._id && user.userType == "student" ? */}
+      {user && currentUser && user._id === currentUser._id && user.userType === "student" ?
         <div className="card p-2" style=
           {{ border: 'none' }}>
           <div className="card-body shadow-sm position-relative">
@@ -444,7 +476,7 @@ const [height, setHeight] = useState(200);
           </div>
         </div>
       )}
-                  {user._id === currentUser._id ?
+                  {user && currentUser && user._id === currentUser._id ?
                     <button onClick={() => handleEnableEdit()} type="button" className="btn btn-light btn-sm align-middle shadow-sm position-absolute top-0 end-0 m-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gear" viewBox="0 0 16 16">
                         <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
@@ -460,7 +492,7 @@ const [height, setHeight] = useState(200);
         </div >
       }
 
-      {user && (user._id != currentUser._id || user.userType != "student") ?
+      {user && currentUser && (user._id != currentUser._id || user.userType != "student") ?
         <>
           {/* <div className="modal fade position-absolute top-50 start-50" aria-labelledby="exampleModalLabel" aria-hidden="false" style={{ display: isEditCourse ? 'contents' : 'none', zIndex: 5 }}> */}
           <div

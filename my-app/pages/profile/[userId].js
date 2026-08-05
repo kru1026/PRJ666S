@@ -241,7 +241,7 @@ const [height, setHeight] = useState(200);
 
       {user._id === currentUser?._id && files.length === 0 && <br />}
 
-      {files && files.length > 0 && user._id === currentUser._id && (
+      {user && currentUser && files && files.length > 0 && user._id === currentUser._id && (
         <div style={{ textAlign: 'right' }}>
         <Button 
             style={{ width: '170px', height: '40px' }} 
@@ -250,7 +250,7 @@ const [height, setHeight] = useState(200);
         Delete the Photo
         </Button>
         </div>
-        )}{files && files.length > 0 && user._id === currentUser._id && <br />}
+        )}{user && currentUser && files && files.length > 0 && user._id === currentUser._id && <br />}
 
       {/* {user._id == currentUser._id && user.userType == "student" && (<div style={{ textAlign: 'right' }}>
         <Button href={`../historyOrder`} style={{ width: '170px', height: '40px' }}>List of Courses</Button>
@@ -272,7 +272,7 @@ const [height, setHeight] = useState(200);
           </>
       )}
      
-     {user._id == currentUser._id && user.userType == "student" && <br />}
+     {user && currentUser && user._id == currentUser._id && user.userType == "student" && <br />}
 
       {/* {user && user._id == currentUser._id && user.userType == "student" ? */}
       {user && currentUser && user._id === currentUser._id && user.userType === "student" ?

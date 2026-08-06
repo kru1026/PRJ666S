@@ -55,16 +55,16 @@ const CourseDetails = () => {
     setRatings([]);
     return;
   }
-
   fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/courseRatings?userId=${storedUser._id}&courseCode=${courseCode}`
   )
     .then((res) => res.json())
-    .then((data) => {
+    .then((data) => { 
       setRatings(data);
     })
     .catch((err) => console.error("Failed to load course ratings:", err));
 }, [courseCode, storedUser]);
+
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPurchasedCount?courseCode=${courseCode}`)
@@ -134,7 +134,7 @@ const CourseDetails = () => {
         }}
       >
         {star}
-        {!loggedIn && (
+        {(!loggedIn || !courseRating) && (
           <span
             style={{
               position: "absolute",
@@ -187,30 +187,30 @@ const CourseDetails = () => {
               <p>
                 <strong>Average Rating:</strong>{" "}
                 {!loggedIn
-                  ? "Log in to view ratings"
-                  : courseRating
+                  ? "Log in to view ratings and apply for classes"
+                  : (courseRating)
                     ? courseRating.averageRating.toFixed(1)
                     : "Not Rated"}
               </p>
               <div>{renderStars(courseRating?.averageRating || 0)}</div><br />
               <p><strong>Instructors: </strong> 
               {course.assignedTutors && course.assignedTutors.length > 0 ? (
-  course.assignedTutors.map((tutor, index) => (
-    <span key={tutor._id}>
-      <Nav.Link
-      as={Link}
-        href={`/profile/${tutor._id}`}
-        onClick={() => localStorage.setItem('viewingUserId', tutor._id)}
-        style={{ display: 'inline', textDecoration: 'underline', color: '#007bff' }}
-      >
-        {tutor.firstName} {tutor.lastName}
-      </Nav.Link>
-      {index < course.assignedTutors.length - 1 && ', '}
-    </span>
-  ))
-) : (
-  <span>No tutors assigned</span>
-)}
+                course.assignedTutors.map((tutor, index) => (
+                  <span key={tutor._id}>
+                    <Nav.Link
+                    as={Link}
+                      href={`/profile/${tutor._id}`}
+                      onClick={() => localStorage.setItem('viewingUserId', tutor._id)}
+                      style={{ display: 'inline', textDecoration: 'underline', color: '#007bff' }}
+                    >
+                      {tutor.firstName} {tutor.lastName}
+                    </Nav.Link>
+                    {index < course.assignedTutors.length - 1 && ', '}
+                  </span>
+                ))
+              ) : (
+                <span>No tutors assigned</span>
+              )}
               </p>
 
               {token && storedUser && storedUser.userType === "student" && (
@@ -220,14 +220,14 @@ const CourseDetails = () => {
                     <Form.Select name="tutor" value={selectedTutor?._id || ''} onChange={handleTutorChange}>
                       <option value="" disabled>Select a Tutor</option>
                       {course.assignedTutors && course.assignedTutors.length > 0 ? (
-  course.assignedTutors.map((tutor) => (
-    <option key={tutor._id} value={tutor._id}>
-      {tutor.firstName} {tutor.lastName}
-    </option>
-  ))
-) : (
-  <option disabled>No tutors assigned</option>
-)}
+                        course.assignedTutors.map((tutor) => (
+                          <option key={tutor._id} value={tutor._id}>
+                            {tutor.firstName} {tutor.lastName}
+                          </option>
+                        ))
+                      ) : (
+                        <option disabled>No tutors assigned</option>
+                      )}
                     </Form.Select>
                   </Form.Group>
                   <Button className="mt-3" variant="success" onClick={async () => {

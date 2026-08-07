@@ -502,7 +502,7 @@ const [height, setHeight] = useState(200);
       {!loggedIn ? (
         <div className="card w-100 mt-4" style={{ border: 'none' }}>
           <h3 className="card-body">
-            Please log in to view courses taught by this tutor.
+            Please log in to view courses taught by this tutor and their feedback.
           </h3>
         </div>
       ) : (

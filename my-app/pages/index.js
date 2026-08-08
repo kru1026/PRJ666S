@@ -12,6 +12,10 @@ import PopularCourseCard from '@/components/PopularCourseCard';
 import { getMostRatedCourses } from './api/getMostRatedCourses';
 import MostRatedCourseCard from '@/components/MostRatedCourseCard';
 
+import { useAtomValue } from "jotai";
+import { useSetAtom } from "jotai";
+import { backendReadyAtom } from "../atoms/backendAtom";
+
 export default function Home() {
 
     const [courses, setCourses] = useState([]);
@@ -30,6 +34,8 @@ export default function Home() {
 
     const [recommendationMessage, setRecommendationMessage] = useState("");
 
+    const backendReady = useAtomValue(backendReadyAtom);
+    const setBackendReady = useSetAtom(backendReadyAtom);
     // const storedUser = JSON.parse(localStorage.getItem('user'));
     // const token = getToken();
 
@@ -52,6 +58,7 @@ export default function Home() {
             const data = await getAllCourses();
             console.log("Courses OK");
             setCourses(data);
+            setBackendReady(true);
         } catch (err) {
             console.log("Courses FAILED:", err);
             setError(err.message);
@@ -182,86 +189,69 @@ export default function Home() {
       };
 
     return (
-        <>
-            <div class="container-sm">
-                {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br />
-
-                <h5 style={{ color: "red" }}>
-                    When first opening this page, if no data is shown, please wait 2-4 minutes for the backend to restart.
-                </h5><br />
-
-                {recommendationMessage ? (
-                <h5>{recommendationMessage}</h5>
-                ) : ["tutor", "admin"].includes(storedUser?.userType) ? (
-                <>
-                    <h5>Please log in to see course recommendations. (for students)</h5>
-                </>
-                ) : (
-                <>
-                    <h5>Recommended for you</h5>
+  <>
+    {!backendReady ? (
+      <>
+        <h5 style={{ color: "red" }}>
+          Please wait 2-4 minutes for the backend to restart. When this message disappears, the backend is ready.
+        </h5>
+        <br />
+      </>
+    ) : (
+      <>
+      <div className="container-sm">
+        {recommendationMessage ? (
+          <h5>{recommendationMessage}</h5>
+        ) : ["tutor", "admin"].includes(storedUser?.userType) ? (
+          <>
+            <h5 className="ms-4">Please log in to see course recommendations. (for students)</h5>
+          </>
+        ) : (
+          <>
+            <h5>Recommended for you</h5>
 
             {filteredCourses.slice(0, 5).map((course) => (
-            <span className="mx-2" key={course._id}>
+              <span className="mx-2" key={course._id}>
                 <CourseCard2 course={course} />
+              </span>
+            ))}
+          </>
+        )}
+        </div>
+
+        <div className="container-sm">
+          {tutors && <h5>Featured Tutors</h5>}
+
+          {tutors?.slice(0, 5).map((tutor) => (
+            <span className="mx-2" key={tutor._id}>
+              <TutorCard tutor={tutor} />
             </span>
-        ))}
-    </>
-)}
+          ))}
+        </div>
+        <br />
 
-                {/* {filteredCourses && (
-                    <h5>Recommended for you</h5>
-                )}
+        <div className="container-sm">
+          {mostPurchasedCourses && <h5>Popular Courses</h5>}
 
-                {filteredCourses.slice(0, 5).map((course) =>
-                    <>
-                        <span class="mx-2">
-                            <CourseCard2 key={course._id} course={course}></CourseCard2>
-                        </span>
-                    </>
-                )} */}
-            </div><br />
+          {mostPurchasedCourses?.slice(0, 5).map((course) => (
+            <span className="mx-2" key={course._id}>
+              <PopularCourseCard course={course} />
+            </span>
+          ))}
+        </div>
+        <br />
 
-            <div class="container-sm">
-            {tutors && (
-                    <h5>Featured Tutors</h5>
-                )}
+        <div className="container-sm">
+          {mostRatedCourses && <h5>Most Rated Courses</h5>}
 
-                {tutors.slice(0, 5).map((tutor) =>
-                    <>
-                        <span class="mx-2">
-                            <TutorCard key={tutor._id} tutor={tutor}></TutorCard>
-                        </span>
-                    </>
-                )}
-            </div><br />
-
-            <div class="container-sm">
-            {mostPurchasedCourses && (
-                    <h5>Popular Courses</h5>
-                )}
-
-                {mostPurchasedCourses.slice(0, 5).map((course) =>
-                    <>
-                        <span class="mx-2">
-                            <PopularCourseCard key={course._id} course={course}></PopularCourseCard>
-                        </span>
-                    </>
-                )}
-            </div><br />
-
-            <div class="container-sm">
-            {mostRatedCourses && (
-                    <h5>Most Rated Courses</h5>
-                )}
-
-                {mostRatedCourses.slice(0, 5).map((course) =>
-                    <>
-                        <span class="mx-2">
-                            <MostRatedCourseCard key={course._id} course={course}></MostRatedCourseCard>
-                        </span>
-                    </>
-                )}
-            </div>
-        </>
-    );
-};
+          {mostRatedCourses?.slice(0, 5).map((course) => (
+            <span className="mx-2" key={course._id}>
+              <MostRatedCourseCard course={course} />
+            </span>
+          ))}
+        </div>
+        <br />
+      </>
+    )}
+  </>
+)};

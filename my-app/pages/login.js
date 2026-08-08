@@ -4,8 +4,8 @@ import { Card, Form, Alert, Button } from "react-bootstrap";
 import { useState } from 'react';
 import { authenticateUser } from '@/lib/authenticate';
 import { useRouter } from 'next/router';
-import { useAtom } from "jotai";
-
+import { useAtomValue } from "jotai";
+import { backendReadyAtom } from "../atoms/backendAtom";
 
 export default function Login(props){
 
@@ -14,6 +14,8 @@ export default function Login(props){
   const [warning, setWarning] = useState("");
 
   const router = useRouter();
+
+  const backendReady = useAtomValue(backendReadyAtom);
 
   async function handleSubmit(e) {
   e.preventDefault();
@@ -31,9 +33,12 @@ export default function Login(props){
         <Card.Body>
           <h2>Login</h2>
           <p>Enter your login information below:</p>
-          <p style={{ color: "red" }}>
-            Please wait 2-4 minutes for the backend to restart if clicking Login has no response.
-          </p>
+
+          {!backendReady && (
+            <p style={{ color: "red" }}>
+              Please wait 2-4 minutes for the backend to restart. When this message disappears, the backend is ready.
+            </p>
+          )}
         </Card.Body>
       </Card>
       <br />

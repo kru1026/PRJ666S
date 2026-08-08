@@ -191,12 +191,12 @@ export default function Home() {
     return (
   <>
     {!backendReady ? (
-      <>
+      <div className="container-sm">
         <h5 style={{ color: "red" }}>
           Please wait 2-4 minutes for the backend to restart. When this message disappears, the backend is ready.
         </h5>
         <br />
-      </>
+      </div>
     ) : (
       <>
       <div className="container-sm">

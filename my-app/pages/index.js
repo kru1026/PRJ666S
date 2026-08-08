@@ -186,13 +186,19 @@ export default function Home() {
             <div class="container-sm">
                 {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br />
 
+                <h5 style={{ color: "red" }}>
+                    Please allow 2-4 minutes for the backend to restart when first opening this page.
+                </h5><br />
+
                 {recommendationMessage ? (
-                    <h5>{recommendationMessage}</h5>
-                    ) : ["tutor", "admin"].includes(storedUser?.userType) ? (
+                <h5>{recommendationMessage}</h5>
+                ) : ["tutor", "admin"].includes(storedUser?.userType) ? (
+                <>
                     <h5>Please log in to see course recommendations. (for students)</h5>
-                    ) : (
-                    <>
-                <h5>Recommended for you</h5>
+                </>
+                ) : (
+                <>
+                    <h5>Recommended for you</h5>
 
             {filteredCourses.slice(0, 5).map((course) => (
             <span className="mx-2" key={course._id}>

@@ -187,7 +187,7 @@ export default function Home() {
                 {token && storedUser && (<h1>Welcome: {storedUser.userName}</h1>)} <br />
 
                 <h5 style={{ color: "red" }}>
-                    When first opening this page, if no data is shown, please allow 2-4 minutes for the backend to restart.
+                    When first opening this page, if no data is shown, please wait 2-4 minutes for the backend to restart.
                 </h5><br />
 
                 {recommendationMessage ? (

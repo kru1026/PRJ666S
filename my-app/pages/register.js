@@ -66,7 +66,7 @@ export default function Register(props){
           <h2>Register</h2>
           <p>Register for an account:</p>
           <p style={{ color: "red" }}>
-            Please allow 2-4 minutes for the backend to restart if clicking Register has no response.
+            Please wait 2-4 minutes for the backend to restart if clicking Register has no response.
           </p>
         </Card.Body>
       </Card>

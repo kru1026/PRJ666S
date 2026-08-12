@@ -5,38 +5,69 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAtom } from 'jotai';
 import { removeToken, readToken } from '@/lib/authenticate';
+import { FaHome, FaUser, FaClipboard } from 'react-icons/fa';
 
 function Footer() {
   const router = useRouter();
   let token = readToken();
 
-  return (<>
-    <div class="pt-10 container-fluid bg-light-subtle border-bottom">
-      <div class="py-3 text-center">
-        <div class="card-body">
-          {/* <h6 class="card-title fw-bold">
-          <a className={`nav-link ${router.pathname === '/' ? 'active' : ''}`} aria-current="page" href="/">Find Me a Tutor (Home)</a>
-          </h6> */}
-          <div class="container text-centerm mt-3">
-            <div class="row">
-              <div class="col">
-                <Link className={`nav-link ${router.pathname === '/tutorsList' ? 'active' : ''}`} aria-current="page" href="/tutorsList">Tutors</Link>
+  return (
+  <>
+    <div
+      className="container-fluid border-bottom"
+      style={{ backgroundColor: 'black' }}
+    >
+      <div className="py-3 text-center">
+        <div className="card-body">
+          <div className="container text-center mt-3">
+            <div className="row">
+              
+              <div className="col">
+                <Link
+                  className={`footer-link ${
+                    router.pathname === '/tutorsList' ? 'active' : ''
+                  }`}
+                  href="/tutorsList"
+                >
+                <FaUser /> Tutors
+                </Link>
               </div>
-              <div class="col">
-                <Link className={`nav-link ${router.pathname === '/' ? 'active' : ''}`} aria-current="page" href="/">Home</Link>
+
+              <div className="col">
+                <Link
+                  className={`footer-link ${
+                    router.pathname === '/' ? 'active' : ''
+                  }`}
+                  href="/"
+                >
+                <FaHome /> Home
+                </Link>
               </div>
-              <div class="col">
-                <Link className={`nav-link ${router.pathname === '/allCoursesList' ? 'active' : ''}`} href="/allCoursesList">Courses</Link>
+
+              <div className="col">
+                <Link
+                  className={`footer-link ${
+                    router.pathname === '/allCoursesList' ? 'active' : ''
+                  }`}
+                  href="/allCoursesList"
+                >
+                <FaClipboard /> Courses
+                </Link>
               </div>
+
             </div>
           </div>
         </div>
       </div>
+
+      <div>
+        <p className="text-center pt-2 text-white">
+          @ 2024 FMAT Inc | Privacy | Terms
+        </p>
+      </div>
     </div>
-    <div class="container-fluid bg-light-subtle">
-      <p class="text-center pt-2">@ 2024 FMAT Inc | Privacy | Terms</p>
-    </div>
-  </>);
+  </>
+);
 }
 
 export default Footer;

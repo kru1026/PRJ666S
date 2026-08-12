@@ -1,3 +1,26 @@
+.nav-link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .nav-link.active {
+  color: white !important;
+  font-weight: bold;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-link.active {
+  color: white !important;
   font-weight: bold;
 }

@@ -26,23 +26,42 @@ export default function RouteGuard(props) {
     };
   }, []);
 
-  let alertShown = false;
+  // let alertShown = false;
 
-  function authCheck(url) {
+  // function authCheck(url) {
     
-    const path = url.split('?')[0];
+  //   const path = url.split('?')[0];
     
-    if ((!isAuthenticated() && !PUBLIC_PATHS.includes(path)) && (!path.startsWith('/course-details')) && (!path.startsWith('/profile'))) {
-      setAuthorized(false);
-      if (!alertShown) {
+  //   if ((!isAuthenticated() && !PUBLIC_PATHS.includes(path)) && (!path.startsWith('/course-details')) && (!path.startsWith('/profile'))) {
+  //     setAuthorized(false);
+  //     if (!alertShown) {
+  //       alert("Please login to visit this page");
+  //       alertShown = true;
+  //     }
+  //     router.push('/login');
+  //   } else {
+  //     setAuthorized(true);
+  //   }
+  // }
+
+      function authCheck(url) {
+      const path = url.split('?')[0];
+
+      if (
+        !isAuthenticated() &&
+        !PUBLIC_PATHS.includes(path) &&
+        !path.startsWith('/course-details') &&
+        !path.startsWith('/profile')
+      ) {
+        setAuthorized(false);
+
         alert("Please login to visit this page");
-        alertShown = true;
+
+        router.push('/login');
+      } else {
+        setAuthorized(true);
       }
-      router.push('/login');
-    } else {
-      setAuthorized(true);
     }
-  }
 
   return <>{authorized && props.children}</>
 }

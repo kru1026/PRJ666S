@@ -14,19 +14,19 @@ function Footer() {
     <div class="pt-10 container-fluid bg-light-subtle border-bottom">
       <div class="py-3 text-center">
         <div class="card-body">
-          <h6 class="card-title fw-bold">
-          <a className={`nav-link ${router.pathname === '/' ? 'active' : ''}`} aria-current="page" href="/">Find Me a Tutor</a>
-          </h6>
+          {/* <h6 class="card-title fw-bold">
+          <a className={`nav-link ${router.pathname === '/' ? 'active' : ''}`} aria-current="page" href="/">Find Me a Tutor (Home)</a>
+          </h6> */}
           <div class="container text-centerm mt-3">
             <div class="row">
               <div class="col">
-                <a className={`nav-link ${router.pathname === '/tutorsList' ? 'active' : ''}`} aria-current="page" href="/tutorsList">Tutor</a>
+                <Link className={`nav-link ${router.pathname === '/tutorsList' ? 'active' : ''}`} aria-current="page" href="/tutorsList">Tutors</Link>
               </div>
               <div class="col">
-                <a className={`nav-link ${router.pathname === '/' ? 'active' : ''}`} aria-current="page" href="/">About</a>
+                <Link className={`nav-link ${router.pathname === '/' ? 'active' : ''}`} aria-current="page" href="/">Home</Link>
               </div>
               <div class="col">
-                <a className={`nav-link ${router.pathname === '/allCoursesList' ? 'active' : ''}`} href="/allCoursesList">Course</a>
+                <Link className={`nav-link ${router.pathname === '/allCoursesList' ? 'active' : ''}`} href="/allCoursesList">Courses</Link>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@ function Footer() {
       </div>
     </div>
     <div class="container-fluid bg-light-subtle">
-      <p class="text-center pt-2">@ 2024 FAMT Inc | Privacy | Terms</p>
+      <p class="text-center pt-2">@ 2024 FMAT Inc | Privacy | Terms</p>
     </div>
   </>);
 }

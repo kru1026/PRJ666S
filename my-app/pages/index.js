@@ -201,10 +201,10 @@ export default function Home() {
       <>
       <div className="container-sm">
         {recommendationMessage ? (
-          <h5>{recommendationMessage}</h5>
+          <h5 style={{ color: "red" }}>{recommendationMessage}<br/><br/></h5>
         ) : ["tutor", "admin"].includes(storedUser?.userType) ? (
           <>
-            <h5>Please log in to see course recommendations. (for students)</h5>
+            <h5 style={{ color: "red" }}>Please log in to see course recommendations. (for students) <br/><br/></h5>
           </>
         ) : (
           <>
@@ -214,7 +214,7 @@ export default function Home() {
               <span className="mx-2" key={course._id}>
                 <CourseCard2 course={course} />
               </span>
-            ))}
+            ))} <br/><br/>
           </>
         )}
         </div>
